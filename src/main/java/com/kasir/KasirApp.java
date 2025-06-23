@@ -3,8 +3,8 @@ package com.kasir;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
+import java.sql.*;
 
 public class KasirApp extends JFrame {
     private JTable table;
@@ -13,20 +13,41 @@ public class KasirApp extends JFrame {
     private JLabel totalLabel;
 
     public KasirApp() {
-        setTitle("Cateman");
-        setSize(500, 400);
+        setTitle("BARA MA'WO");
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null); // untuk posisi ditengah layar
 
-        // Daftar produk
-        Product[] products = {
-                new Product("Nasi Goreng", 15000),
-                new Product("Teh Manis", 5000),
-                new Product("Ayam Bakar", 20000)
-        };
+        // ICON APLIKASI
+        ImageIcon appIcon = new ImageIcon(getClass().getResource("/bara.png"));
+        setIconImage(appIcon.getImage());
+
+        // // Daftar produk
+        // Product[] products = {
+        // new Product("Nasi Goreng", 15000),
+        // new Product("Teh Manis", 5000),
+        // new Product("Ayam Bakar", 20000)
+        // };
+
+        java.util.List<Product> daftarProduk = new ArrayList<>();
+
+        try (Connection conn = Database.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM produk");
+
+            while (rs.next()) {
+                String nama = rs.getString("nama");
+                int harga = rs.getInt("harga");
+                daftarProduk.add(new Product(nama, harga));
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal menarik produk dari databse");
+            e.printStackTrace();
+        }
 
         // Combo box untuk pilih produk
-        JComboBox<Product> comboProduk = new JComboBox<>(products);
+        JComboBox<Product> comboProduk = new JComboBox<>(daftarProduk.toArray(new Product[0]));
         JButton tambahButton = new JButton("Tambah ke Keranjang");
         JButton clearButton = new JButton("Bersihkan Keranjang");
 

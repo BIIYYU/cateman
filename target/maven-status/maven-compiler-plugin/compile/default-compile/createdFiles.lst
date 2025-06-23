@@ -1,3 +1,6 @@
-com\kasir\Kasir.class
+com\kasir\LandingPage.class
 com\kasir\KasirApp.class
+com\kasir\Database.class
+com\kasir\MenuUtama.class
+com\kasir\Kasir.class
 com\kasir\Product.class

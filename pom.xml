@@ -45,7 +45,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>com.kasir.KasirApp</mainClass>
+                    <mainClass>com.kasir.LandingPage</mainClass>
                 </configuration>
             </plugin>
         </plugins>
